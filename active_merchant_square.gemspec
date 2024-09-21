@@ -27,5 +27,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "test-unit", "~> 3"
   spec.add_development_dependency 'mocha', '~> 1'
 
-  spec.add_dependency 'activemerchant', "~> 1.66"
+  spec.add_dependency 'activemerchant', "~> 1.4"
 end

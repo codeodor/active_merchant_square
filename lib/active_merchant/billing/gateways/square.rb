@@ -1,7 +1,27 @@
 module ActiveMerchant #:nodoc:
   module Billing #:nodoc:
     class SquareGateway < Gateway
+      STANDARD_ERROR_CODE = {
+              :incorrect_number => 'incorrect_number',
+              :invalid_number => 'invalid_number',
+              :invalid_expiry_date => 'invalid_expiry_date',
+              :invalid_cvc => 'invalid_cvc',
+              :expired_card => 'expired_card',
+              :incorrect_cvc => 'incorrect_cvc',
+              :incorrect_zip => 'incorrect_zip',
+              :incorrect_address => 'incorrect_address',
+              :incorrect_pin => 'incorrect_pin',
+              :card_declined => 'card_declined',
+              :processing_error => 'processing_error',
+              :call_issuer => 'call_issuer',
+              :pickup_card => 'pick_up_card',
+              :config_error => 'config_error',
+              :test_mode_live_card => 'test_mode_live_card',
+              :unsupported_feature => 'unsupported_feature',
+              :invalid_amount => 'invalid_amount'
+            }
 
+      class_inheritable_accessor :test_url, :live_url
 
       # test uses a 'sandbox' access token, same URL
       self.live_url = 'https://connect.squareup.com/v2/'
@@ -309,12 +329,12 @@ module ActiveMerchant #:nodoc:
         Response.new(success,
           message_from(success, response),
           response,
-          authorization: authorization_from(response),
+          :authorization => authorization_from(response),
           # Neither avs nor cvv match are not exposed in the api.
-          avs_result: nil,
-          cvv_result: nil,
-          test: test?,
-          error_code: success ? nil : error_code_from(response)
+          :avs_result => nil,
+          :cvv_result => nil,
+          :test => test?,
+          :error_code => success ? nil : error_code_from(response)
         )
       end
 
